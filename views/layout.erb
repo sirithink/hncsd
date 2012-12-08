@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Duo</title>
+    <link rel="stylesheet" href="/screen.css" type="text/css" media="screen, projection">
+    <!--[if lt IE 8]><link rel="stylesheet" href="/ie.css" type="text/css" media="screen, projection"><![endif]-->
+  </head>
+  <body>
+    <div class="container">
+      <h1>查询系统</h1>
+      <hr>
+      <p>
+        请不要同时打开多个网页.
+      </p>
+      <%= yield %>
+      <div class="box">
+        <p>
+        由<a href="http://blog.mangege.com" target="_blank">Mangege</a>提供技术支持
+        </p>
+      </div>
+    </div>
+    <script src="/jquery-1.8.3.min.js"></script>
+    <script src="/jquery.validate.min.js"></script>
+    <script src="/app.js"></script>
+  </body>
+</html>
