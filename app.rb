@@ -19,7 +19,7 @@ class App < Sinatra::Base
   end
 
   post '/' do
-    redirect '/' if session[:hncsjj_session].nil?
+    return redirect(to('/')) if session[:hncsjj_session].nil?
 
     fields = params.dup
     fields['ctl00$ContentPlaceHolder1$ButtonClwfOk'] = '确定'
@@ -71,9 +71,10 @@ class App < Sinatra::Base
 
   def extract_data(page)
     data_table = page.search('#gvWZ')
-    rows = []
+    rows = nil
     title = (page.search('#labTitle').first.content rescue '')
     if data_table.size > 0
+      rows = []
       rows << data_table.search('tr').first.search('th').map{|th| th.text} #head
       data_table.search('tr')[1..-1].each do |td_row|
         rows << td_row.search('td').map{|th| th.text}
