@@ -1,0 +1,17 @@
+<% content_for :page_head do %>
+  <style type="text/css" media="screen">
+    body {
+      padding-top: 40px;
+      padding-bottom: 40px;
+      background-color: #f5f5f5;
+    }
+  </style>
+<% end %>
+<%= form_tag login_path, method: :post, class: 'form-signin' do %>
+  <h2 class="form-signin-heading">用户登录</h2>
+  <%= bootstrap_flash %>
+  <%= text_field_tag :name, nil, placeholder: '用户名', class: 'input-block-level' %>
+  <%= password_field_tag :password, nil, placeholder: '密码', class: 'input-block-level' %>
+  <%= submit_tag '登录', class: 'btn btn-large btn-primary' %>
+
+<% end %>

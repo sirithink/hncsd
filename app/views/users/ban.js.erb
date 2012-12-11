@@ -1,6 +1,6 @@
 <% if @result %>
-  alert('禁止用户登录成功');
+  alert('禁止用户<%=j @user.name %>登录成功');
   $('#row-u-<%= @user.id %> .allow-login-cell').text('否');
 <% else %>
-  alert('禁止用户登录失败');
+  alert('禁止用户<%=j @user.name %>登录失败');
 <% end %>

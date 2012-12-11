@@ -11,4 +11,13 @@ class ActiveSupport::TestCase
   fixtures :all
 
   # Add more helper methods to be used by all tests here...
+  def login(user = nil)
+    user ||= FactoryGirl.create(:user, allow_login: true)
+    @user = user
+    @controller.send :login_user, @user
+  end
+
+  def logout
+    @controller.send :logout_user
+  end
 end

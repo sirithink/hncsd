@@ -1,5 +1,10 @@
 # -*- encoding : utf-8 -*-
 Hncsd::Application.routes.draw do
+  root to: "main#index"
+  get "main/login", as: :login
+  post "main/login" => "main#login_auth"
+  post "main/logout", as: :logout
+
   resources :users, except: :show do
     member do
       put :ban

@@ -41,7 +41,11 @@ class UsersController < ApplicationController
   end
 
   def ban
-    @result = @user.update_attribute(:allow_login, false)
+    if @user.id == current_user.id
+      render js: 'alert("不能禁用当前登录帐号");'
+    else
+      @result = @user.update_attribute(:allow_login, false)
+    end
   end
 
   private
