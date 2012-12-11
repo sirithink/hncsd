@@ -1,0 +1,36 @@
+<div class="page-header">
+  <h1>用户列表</h1>
+</div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>用户名</th>
+      <th>管理员</th>
+      <th>允许登录</th>
+      <th>创建时间</th>
+      <th>管理</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
+      <tr id="row-u-<%= user.id %>">
+        <td><%= user.id %></td>
+        <td><%= user.name %></td>
+        <td><%=boolean_human_text user.super_admin %></td>
+        <td class="allow-login-cell"><%=boolean_human_text user.allow_login %></td>
+        <td><%=l user.created_at %></td>
+        <td>
+          <%= link_to "禁止登录", ban_user_path(user), class: 'btn btn-mini', method: :put, remote: true %>
+          <%= link_to '编辑',
+                      edit_user_path(user), :class => 'btn btn-mini' %>
+          <%= link_to '删除',
+                      user_path(user),
+                      :method => :delete,
+                      :data => { :confirm => '确认删除吗?' },
+                      :class => 'btn btn-mini btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

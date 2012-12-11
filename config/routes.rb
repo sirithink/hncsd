@@ -1,4 +1,11 @@
+# -*- encoding : utf-8 -*-
 Hncsd::Application.routes.draw do
+  resources :users, except: :show do
+    member do
+      put :ban
+    end
+  end
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
