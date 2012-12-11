@@ -1,7 +1,7 @@
 # -*- encoding : utf-8 -*-
 module LoginSystem
   def self.included(base)
-    base.send :helper_method, :current_user, :logged_in?
+    base.send :helper_method, :current_user, :logged_in?, :admin?
   end
 
   protected
@@ -27,8 +27,27 @@ module LoginSystem
     unless logged_in?
       store_location
       respond_to do |format|
-        format.html {redirect_to login_path}
+        format.html do
+          flash.alert = '用户过期或没有登录,请先登录'
+          redirect_to login_path
+        end
         format.js {render(:js => "alert('用户过期或没有登录,请先登录');", :status => 401)}
+      end
+    end
+  end
+
+  def admin?
+    logged_in? && current_user.super_admin?
+  end
+
+  def admin_required
+    unless admin?
+      respond_to do |format|
+        format.html do
+          flash.alert = '没有操作权限'
+          redirect_to root_path
+        end
+        format.js {render(:js => "alert('没有操作权限');", :status => 401)}
       end
     end
   end

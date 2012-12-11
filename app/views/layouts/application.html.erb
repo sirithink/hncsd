@@ -32,8 +32,10 @@
           <div class="container-fluid nav-collapse">
             <ul class="nav">
               <li><%= link_to "首页", "/"  %></li>
+              <% if admin? %>
               <li><%= link_to "用户管理", users_path  %></li>
               <li><%= link_to "系统管理", '#' %></li>
+              <% end %>
               <li><%= link_to "退出", logout_path, method: :post %></li>
             </ul>
           </div><!--/.nav-collapse -->

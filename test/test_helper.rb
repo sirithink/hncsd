@@ -17,6 +17,12 @@ class ActiveSupport::TestCase
     @controller.send :login_user, @user
   end
 
+  def login_admin(user = nil)
+    user ||= FactoryGirl.create(:user, allow_login: true, super_admin: true)
+    @user = user
+    @controller.send :login_user, @user
+  end
+
   def logout
     @controller.send :logout_user
   end
