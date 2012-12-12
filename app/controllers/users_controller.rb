@@ -3,7 +3,7 @@ class UsersController < ApplicationController
   before_filter :admin_required
   before_filter :find_user, only: [:edit, :update, :destroy, :ban]
   def index
-    @users = User.all
+    @users = User.order('id DESC').all
   end
 
   def new

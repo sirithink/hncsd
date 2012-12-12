@@ -8,6 +8,7 @@ gem 'rails', '3.2.9'
 gem 'mysql2'
 gem 'thin'
 gem 'rails-i18n'
+gem 'spreadsheet'
 
 
 # Gems used only for assets and not required

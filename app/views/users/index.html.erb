@@ -17,7 +17,7 @@
       <tr id="row-u-<%= user.id %>">
         <td><%= user.id %></td>
         <td><%= user.name %></td>
-        <td><%=boolean_human_text user.super_admin %></td>
+        <td class="<%= 'text-warning' if user.super_admin? %>"><%=boolean_human_text user.super_admin %></td>
         <td class="allow-login-cell"><%=boolean_human_text user.allow_login %></td>
         <td><%=l user.created_at %></td>
         <td>
