@@ -1,9 +1,18 @@
 # -*- encoding : utf-8 -*-
 Hncsd::Application.routes.draw do
+
   root to: "main#index"
   get "main/login", as: :login
   post "main/login" => "main#login_auth"
   post "main/logout", as: :logout
+
+  get "main/query", as: :query
+  post "main/post_query", as: :post_query
+  get "main/captcha", as: :captcha
+
+  get "import_codes/new", as: :import_code_new
+  post "import_codes/import", as: :import_code
+  get "import_codes/index", as: :import_code_index
 
   resources :users, except: :show do
     member do

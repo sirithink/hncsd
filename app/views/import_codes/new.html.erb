@@ -1,0 +1,6 @@
+<div class="page-header">
+  <h1><%= '导入违法代码表' %></h1>
+</div>
+<%= form_tag import_code_path, multipart: true do %>
+  <%= file_field_tag :file %><%= submit_tag '上传' %>
+<% end %>

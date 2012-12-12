@@ -1,0 +1,75 @@
+<%= form_tag post_query_path, id: :query_form do %>
+    <div style="display: none;">
+      <% @fields.each do |k, v| %>
+      <%= hidden_field_tag k, v %>
+      <% end %>
+    </div>
+
+    <fieldset>
+      <legend>查询</legend>
+      <p>
+      <label>号牌种类</label><br>
+      <select name="ctl00$ContentPlaceHolder1$DropDownListClwfHpzl" id="ctl00_ContentPlaceHolder1_DropDownListClwfHpzl" class="se1" data-select-value="<%= params["ctl00$ContentPlaceHolder1$DropDownListClwfHpzl"] %>">
+        <option value="02">小车</option>
+        <option value="01">大车</option>
+        <option value="07">摩托车</option>
+      </select>
+      </p>
+
+      <p>
+      <label>号牌号码</label><br>
+      <select name="ctl00$ContentPlaceHolder1$DropDownListClwfHphmPre" id="ctl00_ContentPlaceHolder1_DropDownListClwfHphmPre" class="se2" data-select-value="<%= params["ctl00$ContentPlaceHolder1$DropDownListClwfHphmPre"] %>">
+        <option value="湘">湘</option>
+        <option value="京">京</option>
+        <option value="津">津</option>
+        <option value="沪">沪</option>
+        <option value="渝">渝</option>
+        <option value="冀">冀</option>
+        <option value="豫">豫</option>
+        <option value="云">云</option>
+        <option value="辽">辽</option>
+        <option value="黑">黑</option>
+        <option value="皖">皖</option>
+        <option value="鲁">鲁</option>
+        <option value="新">新</option>
+        <option value="苏">苏</option>
+        <option value="浙">浙</option>
+        <option value="赣">赣</option>
+        <option value="鄂">鄂</option>
+        <option value="桂">桂</option>
+        <option value="甘">甘</option>
+        <option value="晋">晋</option>
+        <option value="蒙">蒙</option>
+        <option value="陕">陕</option>
+        <option value="吉">吉</option>
+        <option value="闽">闽</option>
+        <option value="粤">粤</option>
+        <option value="青">青</option>
+        <option value="藏">藏</option>
+        <option value="琼">琼</option>
+        <option value="川">川</option>
+        <option value="宁">宁</option>
+        <option value="港">港</option>
+        <option value="澳">澳</option>
+        <option value="台">台</option>
+      </select>
+      <input name="ctl00$ContentPlaceHolder1$TextBoxClwfHphm" type="text" id="ctl00_ContentPlaceHolder1_TextBoxClwfHphm" value='<%= params['ctl00$ContentPlaceHolder1$TextBoxClwfHphm'] %>'>
+      </p>
+
+      <p>
+      <label>发动机后五位</label><br>
+      <input name="ctl00$ContentPlaceHolder1$txtFDJH" type="text" id="ctl00_ContentPlaceHolder1_txtFDJH" value="<%= params['ctl00$ContentPlaceHolder1$txtFDJH'] %>">
+      </p>
+
+      <p>
+      <label>附加码</label><br>
+      <input name="ctl00$ContentPlaceHolder1$txtWZCode" type="text" id="ctl00_ContentPlaceHolder1_txtWZCode">&nbsp;&nbsp;<img src="<%= captcha_path %>?<%= Time.now.to_i %>" onclick="this.src=this.src+1", class="captcha">
+      </p>
+
+      <p>
+      <input type="submit" value="确定">
+      <input type="reset" value="清除">
+      </p>
+
+    </fieldset>
+<% end %>

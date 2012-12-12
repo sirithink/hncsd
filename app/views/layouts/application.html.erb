@@ -13,10 +13,6 @@
     <![endif]-->
 
     <%= stylesheet_link_tag "application", :media => "all" %>
-
-    <!-- For all other devices -->
-    <!-- Size should be 32 x 32 pixels -->
-    <%= favicon_link_tag 'images/favicon.ico', :rel => 'shortcut icon' %>
   </head>
   <body>
 
@@ -34,7 +30,7 @@
               <li><%= link_to "首页", "/"  %></li>
               <% if admin? %>
               <li><%= link_to "用户管理", users_path  %></li>
-              <li><%= link_to "系统管理", '#' %></li>
+              <li><%= link_to "系统管理", import_code_new_path %></li>
               <% end %>
               <li><%= link_to "退出", logout_path, method: :post %></li>
             </ul>

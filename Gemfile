@@ -9,7 +9,7 @@ gem 'mysql2'
 gem 'thin'
 gem 'rails-i18n'
 gem 'spreadsheet'
-
+gem 'mechanize'
 
 # Gems used only for assets and not required
 # in production environments by default.

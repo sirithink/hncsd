@@ -1,0 +1,23 @@
+<div class="page-header">
+  <h1>违法代码表</h1>
+</div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>违法代码</th>
+      <th>违法行为</th>
+      <th>扣分分值</th>
+      <th>罚款金额</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @codes.each do |code| %>
+      <tr>
+        <td><%= code.code %></td>
+        <td><%= code.code_desc %></td>
+        <td><%= code.point %></td>
+        <td><%= code.fine %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
