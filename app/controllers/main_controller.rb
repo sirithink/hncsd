@@ -45,7 +45,8 @@ class MainController < ApplicationController
         self.query
         render 'query'
       else
-        @title, @data = query_result.data
+        @title, @heads, @illegal_records = query_result.data
+        @group_illegal_records = @illegal_records.group_by(&:office_slug_name).values
         render 'post_query'
       end
     end

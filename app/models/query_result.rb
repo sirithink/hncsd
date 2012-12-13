@@ -26,16 +26,17 @@ class QueryResult
 
   def extract_data
     data_table = @page.search('#gvWZ')
-    rows = nil
+    rows = heads = nil
     title = (@page.search('#labTitle').first.content rescue nil)
     if data_table.size > 0
       rows = []
-      rows << data_table.search('tr').first.search('th').map{|th| th.text} #head
+      heads = data_table.search('tr').first.search('th').map{|th| th.text} #head
       data_table.search('tr')[1..-1].each do |td_row|
         rows << td_row.search('td').map{|th| th.text}
       end
     end
-    @data = [title, rows]
+    illegal_records = IllegalRecord.from_rows(rows)
+    @data = [title, heads, illegal_records]
   end
 
   def save_unknown_error
