@@ -73,6 +73,7 @@ GEM
     less-rails (2.2.6)
       actionpack (>= 3.1)
       less (~> 2.2.0)
+    libv8 (3.11.8.4)
     listen (0.6.0)
     lumberjack (1.0.2)
     magic_encoding (0.0.2)
@@ -180,6 +181,7 @@ DEPENDENCIES
   guard-test (~> 0.7.0)
   jquery-rails
   less-rails (~> 2.2.6)
+  libv8 (~> 3.11.8)
   magic_encoding
   mechanize
   mysql2
