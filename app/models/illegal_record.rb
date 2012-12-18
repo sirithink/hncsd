@@ -28,7 +28,11 @@ class IllegalRecord
   end
 
   def office_city_name
-    office.split(/(交警|公安)/).first
+    if office =~ /机场/
+      '机场'
+    else
+      office.split(/(交警|公安)/).first
+    end
   end
 
   def to_array
@@ -49,5 +53,9 @@ class IllegalRecord
 
   def fine
     code_value.try(:fine)
+  end
+
+  def judgement
+    handle_mark.strip != '未处理' ? '裁决'  : ''
   end
 end

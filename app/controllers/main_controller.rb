@@ -46,7 +46,7 @@ class MainController < ApplicationController
         render 'query'
       else
         @title, @heads, @illegal_records = query_result.data
-        @group_illegal_records = @illegal_records.group_by(&:office_slug_name).values
+        @report_table = ReportTable.from_records(@illegal_records)
         render 'post_query'
       end
     end

@@ -1,6 +1,21 @@
 <p class="text-info"><%= @title %></p>
 <table class="table table-bordered table-condensed">
-  <%= render :partial => "group", collection: @group_illegal_records %>
+  <tr>
+    <th>机关</th>
+    <th>单条罚款</th>
+    <th>条数</th>
+    <th>总扣分</th>
+    <th>总罚款</th>
+  </tr>
+  <% @report_table.rows.each do |row| %>
+    <tr>
+      <td><%= row.office_slug_name %><%= render_judgement(row) %></td>
+      <td><%= row.fine %></td>
+      <td><%= row.number %></td>
+      <td><%= row.point_sum %></td>
+      <td><%= row.fine_sum %></td>
+    </tr>
+  <% end %>
   <tr class="text-success">
     <td colspan="5">总扣分<%= @illegal_records.sum(&:point) %>, 总罚款<%= @illegal_records.sum(&:fine) %></td>
   </tr>
@@ -12,6 +27,8 @@
     <% @heads.each do |th| %>
       <th><%=th %></th>
     <% end %>
+    <th>扣分</th>
+    <th>罚款</th>
   </tr>
 
   <% @illegal_records.each do |record| %>
@@ -19,6 +36,8 @@
       <% record.to_array.each do |td| %>
         <td><%=td %></td>
       <% end %>
+      <td><%= record.point %></td>
+      <td><%= record.fine %></td>
     </tr>
   <% end %>
 </table>
