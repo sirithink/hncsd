@@ -5,6 +5,7 @@ class IllegalRecord
   #           驾驶证号          违法时间       违法地点        违法代码       违法行为
   # 罚款金额 数据来源       处理时间      处理标记      发现机关代码  发现机关
   attr_accessor(*FIELDS)
+  EFFECTIVE_START_TIME = Time.new(2011,3,26)
 
   private_class_method :new
   def self.new_record(row)
@@ -28,7 +29,9 @@ class IllegalRecord
   end
 
   def office_city_name
-    if office =~ /机场/
+    if office_code.strip == '湘Z'
+      '高速'
+    elsif office =~ /机场/
       '机场'
     else
       office.split(/(交警|公安)/).first
@@ -49,6 +52,14 @@ class IllegalRecord
 
   def point
     code_value.try(:point)
+  end
+
+  def final_point
+    if Time.parse(illegal_time) > EFFECTIVE_START_TIME
+      point
+    else
+      0
+    end
   end
 
   def fine
