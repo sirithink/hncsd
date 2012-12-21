@@ -67,6 +67,6 @@ class IllegalRecord
   end
 
   def judgement
-    handle_mark.strip != '未处理' ? '裁决'  : ''
+    handle_time.blank? ? ''  : '裁决'
   end
 end

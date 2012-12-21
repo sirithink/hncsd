@@ -17,7 +17,7 @@
     </tr>
   <% end %>
   <tr class="text-success">
-    <td colspan="5">总扣分<%= @illegal_records.sum(&:point) %>, 总罚款<%= @illegal_records.sum(&:fine) %></td>
+    <td colspan="5" style="text-align: right;">总条数<%= @illegal_records.size %>, 总扣分<%= @illegal_records.sum(&:final_point) %>, 总罚款<%= @illegal_records.sum(&:fine) %></td>
   </tr>
 </table>
 
