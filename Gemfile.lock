@@ -31,6 +31,12 @@ GEM
     arel (3.0.2)
     bcrypt-ruby (3.0.1)
     builder (3.0.4)
+    capistrano (2.13.5)
+      highline
+      net-scp (>= 1.0.0)
+      net-sftp (>= 2.0.0)
+      net-ssh (>= 2.0.14)
+      net-ssh-gateway (>= 1.1.0)
     coderay (1.0.8)
     coffee-rails (3.2.2)
       coffee-script (>= 2.2.0)
@@ -61,6 +67,7 @@ GEM
     guard-test (0.7.0)
       guard (>= 1.1)
       test-unit (~> 2.2)
+    highline (1.6.15)
     hike (1.2.1)
     i18n (0.6.1)
     journey (1.0.4)
@@ -73,7 +80,6 @@ GEM
     less-rails (2.2.6)
       actionpack (>= 3.1)
       less (~> 2.2.0)
-    libv8 (3.11.8.4)
     listen (0.6.0)
     lumberjack (1.0.2)
     magic_encoding (0.0.2)
@@ -95,6 +101,13 @@ GEM
     mysql2 (0.3.11)
     net-http-digest_auth (1.2.1)
     net-http-persistent (2.8)
+    net-scp (1.0.4)
+      net-ssh (>= 1.99.1)
+    net-sftp (2.0.5)
+      net-ssh (>= 2.0.9)
+    net-ssh (2.6.2)
+    net-ssh-gateway (1.1.0)
+      net-ssh (>= 1.99.1)
     nokogiri (1.5.5)
     ntlm-http (0.1.1)
     polyglot (0.3.3)
@@ -133,6 +146,8 @@ GEM
       json (~> 1.4)
     ref (1.0.2)
     ruby-ole (1.2.11.6)
+    rvm-capistrano (1.2.7)
+      capistrano (>= 2.0.0)
     sass (3.2.3)
     sass-rails (3.2.5)
       railties (~> 3.2.0)
@@ -176,18 +191,19 @@ PLATFORMS
 
 DEPENDENCIES
   bcrypt-ruby (~> 3.0.0)
+  capistrano (~> 2.13.5)
   coffee-rails (~> 3.2.1)
   factory_girl_rails (~> 4.0)
   guard-test (~> 0.7.0)
   jquery-rails
   less-rails (~> 2.2.6)
-  libv8 (~> 3.11.8)
   magic_encoding
   mechanize
   mysql2
   rails (= 3.2.9)
   rails-i18n
   rb-inotify
+  rvm-capistrano (~> 1.2.7)
   sass-rails (~> 3.2.3)
   spreadsheet
   therubyracer

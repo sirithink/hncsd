@@ -1,0 +1,2 @@
+source /etc/bashrc
+rvm use "1.9.3"

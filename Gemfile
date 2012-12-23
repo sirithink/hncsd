@@ -18,7 +18,6 @@ group :assets do
   gem 'coffee-rails', '~> 3.2.1'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  gem 'libv8', '~> 3.11.8'
   gem 'therubyracer', :platforms => :ruby
 
   gem 'uglifier', '>= 1.0.3'
@@ -51,4 +50,9 @@ group :development, :test do
 
   gem "guard-test", "~> 0.7.0"
   gem 'rb-inotify', :require => false
+end
+
+group :tool do
+  gem "capistrano", "~> 2.13.5"
+  gem "rvm-capistrano", "~> 1.2.7"
 end
