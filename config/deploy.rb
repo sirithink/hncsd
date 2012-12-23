@@ -14,9 +14,8 @@ set :deploy_to, "/home/#{app_user}/apps/#{application}"
 #set :runner, "#{app_user}"
 set :use_sudo, false
 default_run_options[:pty] = true
-set :rcfile, ::File.expand_path("./config/rcfile", release_path)
-#set :rcfile, '/tmp/rcfile'
-default_run_options[:shell] = "cd /tmp; sudo -u #{app_user} bash --rcfile #{rcfile} -i"
+#set :rcfile, ::File.expand_path("./config/rcfile", release_path)
+default_run_options[:shell] = "cd /tmp; sudo -u #{app_user} bash --rcfile /etc/app.rcfile -i"
 
 
 role :web, "h-jm.mangege.com"                          # Your HTTP server, Apache/etc
