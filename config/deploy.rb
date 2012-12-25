@@ -2,6 +2,7 @@ require "bundler/capistrano"
 
 set :application, "hncsd"
 set :app_user, "hncsd"
+set :nginx_user, "nginx"
 
 set :scm, :git
 set :branch, "master"
@@ -31,22 +32,46 @@ role :db,  "h-jm.mangege.com", :primary => true # This is where Rails migrations
 # if you're still using the script/reaper helper you will need
 # these http://github.com/rails/irs_process_scripts
 
-# If you are using Passenger mod_rails uncomment this:
-# namespace :deploy do
-#   task :start do ; end
-#   task :stop do ; end
-#   task :restart, :roles => :app, :except => { :no_release => true } do
-#     run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
-#   end
-# end
+namespace :deploy do
+  task :start, :roles => :app do
+    run "cd #{deploy_to}/current/; bundle exec thin -C config/thin.yml start"
+  end
+
+  task :stop, :roles => :app do
+    run "cd #{deploy_to}/current/; bundle exec thin -C config/thin.yml stop"
+  end
+
+  task :restart, :roles => :app do
+    run "cd #{deploy_to}/current/; bundle exec thin -C config/thin.yml restart"
+  end
+end
 
 task :init_shared_path, :roles => :app do
   run "mkdir -p #{deploy_to}/shared/config"
+end
+
+task :set_home_acl, :roles => :app do
+  run "setfacl -m u:#{app_user}:x /home/outman"
+end
+
+task :set_app_acl, :roles => :app do
+  #disable other user access
+  run "find #{deploy_to} -type d -print0 | xargs -0 chmod o-rwx"
+  run "find #{deploy_to} -type f -print0 | xargs -0 chmod o-rwx"
+
+  #thin server
+  run "find #{deploy_to} -type d -print0 | xargs -0 setfacl -m u:#{app_user}:rwx"
+  run "find #{deploy_to} -type f -print0 | xargs -0 setfacl -m u:#{app_user}:rw"
+
+  #nginx static file
+  run "find #{deploy_to}/current/public -type d -print0 | xargs -0 setfacl -m u:#{nginx_user}:rwx"
+  run "find #{deploy_to}/current/public -type f -print0 | xargs -0 setfacl -m u:#{nginx_user}:rw"
 end
 
 task :link_shared_files, :roles => :app do
   run "ln -sf #{deploy_to}/shared/config/*.yml #{deploy_to}/current/config/"
 end
 
-after "deploy:setup", :init_shared_path
+after "deploy:setup", :init_shared_path, :set_home_acl
 after "deploy:create_symlink", :link_shared_files
+after "deploy:finalize_update", :set_app_acl
