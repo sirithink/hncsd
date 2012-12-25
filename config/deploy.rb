@@ -53,6 +53,7 @@ end
 
 task :set_home_acl, :roles => :app do
   run "setfacl -m u:#{app_user}:x /home/#{deploy_user}"
+  run "setfacl -m u:#{nginx_user}:x /home/#{deploy_user}"
 end
 
 task :set_app_acl, :roles => :app do
@@ -60,14 +61,16 @@ task :set_app_acl, :roles => :app do
   run "find #{deploy_to} -user #{deploy_user} -type d -print0 | xargs -0 chmod o-rwx"
   run "find #{deploy_to} -user #{deploy_user} -type f -print0 | xargs -0 chmod o-rwx"
 
-  #thin server
-  run "find #{deploy_to} -user #{deploy_user} -type d -print0 | xargs -0 setfacl -m u:#{app_user}:rwx"
-  run "find #{deploy_to} -user #{deploy_user} -type f -print0 | xargs -0 setfacl -m u:#{app_user}:rw"
+  #exec file
   run "find #{deploy_to}/shared/bundle/ruby/1.9.1/bin -user #{deploy_user} -type f -print0 | xargs -0 setfacl -m u:#{app_user}:rwx"
 
-  #nginx static file
-  run "find #{deploy_to}/current/public -user #{deploy_user} -type d -print0 | xargs -0 setfacl -m u:#{nginx_user}:rwx"
-  run "find #{deploy_to}/current/public -user #{deploy_user} -type f -print0 | xargs -0 setfacl -m u:#{nginx_user}:rw"
+  #thin
+  run "find #{deploy_to} -user #{deploy_user} -type d -print0 | xargs -0 setfacl -m u:#{app_user}:rwx"
+  run "find #{deploy_to} -user #{deploy_user} -type f -print0 | xargs -0 setfacl -m u:#{app_user}:rw"
+
+  #nginx
+  run "find #{deploy_to} -user #{deploy_user} -type d -print0 | xargs -0 setfacl -m u:#{nginx_user}:rx"
+  run "find #{deploy_to} -user #{deploy_user} -type f -print0 | xargs -0 setfacl -m u:#{nginx_user}:r"
 end
 
 task :link_shared_files, :roles => :app do
