@@ -1,8 +1,11 @@
 # -*- encoding : utf-8 -*-
 class ReportTable
-  attr_reader :rows
   def initialize
     @rows = []
+  end
+
+  def rows
+    @rows.sort_by{|r| r.office_slug_name}
   end
   
   def add_record(record)
