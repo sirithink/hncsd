@@ -54,5 +54,4 @@ end
 
 group :tool do
   gem "capistrano", "~> 2.13.5"
-  gem "rvm-capistrano", "~> 1.2.7"
 end

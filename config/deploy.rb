@@ -7,15 +7,18 @@ set :scm, :git
 set :branch, "master"
 set :repository,  "git://github.com/mangege/hncsd.git"
 set :deploy_via, :remote_cache
-set :deploy_to, "/home/#{app_user}/apps/#{application}"
+set :deploy_to, "/home/outman/apps/#{application}"
 
 #set :use_sudo, true
 #set :admin_runner, "#{app_user}"
 #set :runner, "#{app_user}"
 set :use_sudo, false
+default_run_options[:shell] = "bash -l"
+=begin
 default_run_options[:pty] = true
 #set :rcfile, ::File.expand_path("./config/rcfile", release_path)
 default_run_options[:shell] = "cd /tmp; sudo -u #{app_user} bash --rcfile /etc/app.rcfile -i"
+=end
 
 
 role :web, "h-jm.mangege.com"                          # Your HTTP server, Apache/etc
@@ -36,3 +39,14 @@ role :db,  "h-jm.mangege.com", :primary => true # This is where Rails migrations
 #     run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
 #   end
 # end
+
+task :init_shared_path, :roles => :app do
+  run "mkdir -p #{deploy_to}/shared/config"
+end
+
+task :link_shared_files, :roles => :app do
+  run "ln -sf #{deploy_to}/shared/config/*.yml #{deploy_to}/current/config/"
+end
+
+after "deploy:setup", :init_shared_path
+after "deploy:create_symlink", :link_shared_files
