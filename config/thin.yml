@@ -1,5 +1,5 @@
 ---
-chdir: /home/outman/apps/hncsd
+chdir: /home/outman/apps/hncsd/current
 environment: production
 timeout: 30
 log: log/thin.log

@@ -62,6 +62,7 @@ task :set_app_acl, :roles => :app do
   #thin server
   run "find #{deploy_to} -type d -print0 | xargs -0 setfacl -m u:#{app_user}:rwx"
   run "find #{deploy_to} -type f -print0 | xargs -0 setfacl -m u:#{app_user}:rw"
+  run "find #{deploy_to}/shared/bundle/ruby/1.9.1/bin -type f -print0 | xargs -0 setfacl -m u:#{app_user}:rwx"
 
   #nginx static file
   run "find #{deploy_to}/current/public -type d -print0 | xargs -0 setfacl -m u:#{nginx_user}:rwx"
