@@ -3,20 +3,21 @@ require "bundler/capistrano"
 set :application, "hncsd"
 set :app_user, "hncsd"
 set :nginx_user, "nginx"
+set :deploy_user, "outman"
 
 set :scm, :git
 set :branch, "master"
 set :repository,  "git://github.com/mangege/hncsd.git"
 set :deploy_via, :remote_cache
-set :deploy_to, "/home/outman/apps/#{application}"
+set :deploy_to, "/home/#{deploy_user}/apps/#{application}"
 
 #set :use_sudo, true
 #set :admin_runner, "#{app_user}"
 #set :runner, "#{app_user}"
 set :use_sudo, false
 default_run_options[:shell] = "bash -l"
-=begin
 default_run_options[:pty] = true
+=begin
 #set :rcfile, ::File.expand_path("./config/rcfile", release_path)
 default_run_options[:shell] = "cd /tmp; sudo -u #{app_user} bash --rcfile /etc/app.rcfile -i"
 =end
@@ -34,15 +35,15 @@ role :db,  "h-jm.mangege.com", :primary => true # This is where Rails migrations
 
 namespace :deploy do
   task :start, :roles => :app do
-    run "cd #{deploy_to}/current/; bundle exec thin -C config/thin.yml start"
+    run "cd #{deploy_to}/current/; rvmsudo -u #{app_user} bundle exec thin -C config/thin.yml start"
   end
 
   task :stop, :roles => :app do
-    run "cd #{deploy_to}/current/; bundle exec thin -C config/thin.yml stop"
+    run "cd #{deploy_to}/current/; rvmsudo -u #{app_user} bundle exec thin -C config/thin.yml stop"
   end
 
   task :restart, :roles => :app do
-    run "cd #{deploy_to}/current/; bundle exec thin -C config/thin.yml restart"
+    run "cd #{deploy_to}/current/; rvmsudo -u #{app_user} bundle exec thin -C config/thin.yml restart"
   end
 end
 
@@ -51,22 +52,22 @@ task :init_shared_path, :roles => :app do
 end
 
 task :set_home_acl, :roles => :app do
-  run "setfacl -m u:#{app_user}:x /home/outman"
+  run "setfacl -m u:#{app_user}:x /home/#{deploy_user}"
 end
 
 task :set_app_acl, :roles => :app do
   #disable other user access
-  run "find #{deploy_to} -type d -print0 | xargs -0 chmod o-rwx"
-  run "find #{deploy_to} -type f -print0 | xargs -0 chmod o-rwx"
+  run "find #{deploy_to} -user #{deploy_user} -type d -print0 | xargs -0 chmod o-rwx"
+  run "find #{deploy_to} -user #{deploy_user} -type f -print0 | xargs -0 chmod o-rwx"
 
   #thin server
-  run "find #{deploy_to} -type d -print0 | xargs -0 setfacl -m u:#{app_user}:rwx"
-  run "find #{deploy_to} -type f -print0 | xargs -0 setfacl -m u:#{app_user}:rw"
-  run "find #{deploy_to}/shared/bundle/ruby/1.9.1/bin -type f -print0 | xargs -0 setfacl -m u:#{app_user}:rwx"
+  run "find #{deploy_to} -user #{deploy_user} -type d -print0 | xargs -0 setfacl -m u:#{app_user}:rwx"
+  run "find #{deploy_to} -user #{deploy_user} -type f -print0 | xargs -0 setfacl -m u:#{app_user}:rw"
+  run "find #{deploy_to}/shared/bundle/ruby/1.9.1/bin -user #{deploy_user} -type f -print0 | xargs -0 setfacl -m u:#{app_user}:rwx"
 
   #nginx static file
-  run "find #{deploy_to}/current/public -type d -print0 | xargs -0 setfacl -m u:#{nginx_user}:rwx"
-  run "find #{deploy_to}/current/public -type f -print0 | xargs -0 setfacl -m u:#{nginx_user}:rw"
+  run "find #{deploy_to}/current/public -user #{deploy_user} -type d -print0 | xargs -0 setfacl -m u:#{nginx_user}:rwx"
+  run "find #{deploy_to}/current/public -user #{deploy_user} -type f -print0 | xargs -0 setfacl -m u:#{nginx_user}:rw"
 end
 
 task :link_shared_files, :roles => :app do
