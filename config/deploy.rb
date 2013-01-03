@@ -43,10 +43,10 @@ task :init_shared_path, :roles => :app do
 end
 
 task :link_shared_files, :roles => :app do
-  run "ln -sf #{deploy_to}/shared/config/*.yml #{deploy_to}/current/config/"
+  run "ln -sf #{deploy_to}/shared/config/*.yml #{latest_release}/config/"
 
-  run "rm -rf #{deploy_to}/current/tmp"
-  run "ln -sf #{deploy_to}/shared/tmp #{deploy_to}/current/tmp"
+  run "rm -rf #{latest_release}/tmp"
+  run "ln -sf #{deploy_to}/shared/tmp #{latest_release}/tmp"
 end
 
 task :set_home_acl, :roles => :app do
@@ -71,10 +71,10 @@ task :set_app_acl, :roles => :app do
 end
 
 task :upload_assets_to_oss, :roles => :app do
-  run "cd #{deploy_to}/current/; bundle exec rake assets:oss:upload"
+  run "cd #{latest_release}; bundle exec rake assets:oss:upload"
 end
 
 after "deploy:setup", :init_shared_path, :set_home_acl
-before "deploy:finalize_update", :link_shared_files
+before "deploy:assets:precompile", :link_shared_files #after deploy:update_code
 after "deploy:finalize_update", :set_app_acl
-after "deploy:assets:symlink", :upload_assets_to_oss
+after "deploy:assets:precompile", :upload_assets_to_oss
