@@ -49,6 +49,18 @@ end
 
 task :init_shared_path, :roles => :app do
   run "mkdir -p #{deploy_to}/shared/config"
+
+  run "mkdir -p #{deploy_to}/shared/tmp"
+  %w[cache pids sessions sockets].each do |dir_name|
+    run "mkdir -p #{deploy_to}/shared/tmp/#{dir_name}"
+  end
+end
+
+task :link_shared_files, :roles => :app do
+  run "ln -sf #{deploy_to}/shared/config/*.yml #{deploy_to}/current/config/"
+
+  run "rm -rf #{deploy_to}/current/tmp"
+  run "ln -sf #{deploy_to}/shared/tmp #{deploy_to}/current/tmp"
 end
 
 task :set_home_acl, :roles => :app do
@@ -61,22 +73,17 @@ task :set_app_acl, :roles => :app do
   run "find #{deploy_to} -user #{deploy_user} -type d -print0 | xargs -0 chmod o-rwx"
   run "find #{deploy_to} -user #{deploy_user} -type f -print0 | xargs -0 chmod o-rwx"
 
-  #exec file
-  run "find #{deploy_to}/shared/bundle/ruby/1.9.1/bin -user #{deploy_user} -type f -print0 | xargs -0 setfacl -m u:#{app_user}:rwx"
-
   #thin
   run "find #{deploy_to} -user #{deploy_user} -type d -print0 | xargs -0 setfacl -m u:#{app_user}:rwx"
   run "find #{deploy_to} -user #{deploy_user} -type f -print0 | xargs -0 setfacl -m u:#{app_user}:rw"
+  #exec file
+  run "find #{deploy_to}/shared/bundle/ruby/1.9.1/bin -user #{deploy_user} -type f -print0 | xargs -0 setfacl -m u:#{app_user}:rwx"
 
   #nginx
   run "find #{deploy_to} -user #{deploy_user} -type d -print0 | xargs -0 setfacl -m u:#{nginx_user}:rx"
   run "find #{deploy_to} -user #{deploy_user} -type f -print0 | xargs -0 setfacl -m u:#{nginx_user}:r"
 end
 
-task :link_shared_files, :roles => :app do
-  run "ln -sf #{deploy_to}/shared/config/*.yml #{deploy_to}/current/config/"
-end
-
 after "deploy:setup", :init_shared_path, :set_home_acl
-after "deploy:create_symlink", :link_shared_files
+before "deploy:finalize_update", :link_shared_files
 after "deploy:finalize_update", :set_app_acl
