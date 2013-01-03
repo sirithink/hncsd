@@ -11,27 +11,13 @@ set :repository,  "git://github.com/mangege/hncsd.git"
 set :deploy_via, :remote_cache
 set :deploy_to, "/home/#{deploy_user}/apps/#{application}"
 
-#set :use_sudo, true
-#set :admin_runner, "#{app_user}"
-#set :runner, "#{app_user}"
 set :use_sudo, false
 default_run_options[:shell] = "bash -l"
 default_run_options[:pty] = true
-=begin
-#set :rcfile, ::File.expand_path("./config/rcfile", release_path)
-default_run_options[:shell] = "cd /tmp; sudo -u #{app_user} bash --rcfile /etc/app.rcfile -i"
-=end
-
 
 role :web, "h-jm.mangege.com"                          # Your HTTP server, Apache/etc
 role :app, "h-jm.mangege.com"                          # This may be the same as your `Web` server
 role :db,  "h-jm.mangege.com", :primary => true # This is where Rails migrations will run
-
-# if you want to clean up old releases on each deploy uncomment this:
-# after "deploy:restart", "deploy:cleanup"
-
-# if you're still using the script/reaper helper you will need
-# these http://github.com/rails/irs_process_scripts
 
 namespace :deploy do
   task :start, :roles => :app do
@@ -84,6 +70,11 @@ task :set_app_acl, :roles => :app do
   run "find #{deploy_to} -user #{deploy_user} -type f -print0 | xargs -0 setfacl -m u:#{nginx_user}:r"
 end
 
+task :upload_assets_to_oss, :roles => :app do
+  run "cd #{deploy_to}/current/; bundle exec rake assets:oss:upload"
+end
+
 after "deploy:setup", :init_shared_path, :set_home_acl
 before "deploy:finalize_update", :link_shared_files
 after "deploy:finalize_update", :set_app_acl
+after "deploy:assets:symlink", :upload_assets_to_oss

@@ -28,7 +28,14 @@ GEM
     activesupport (3.2.10)
       i18n (~> 0.6)
       multi_json (~> 1.0)
+    aliyun-oss (0.7.0.1349333720)
+      builder
+      mime-types
+      xml-simple
     arel (3.0.2)
+    asset_oss (0.3.1349530724)
+      aliyun-oss
+      mime-types
     bcrypt-ruby (3.0.1)
     builder (3.0.4)
     capistrano (2.13.5)
@@ -183,11 +190,13 @@ GEM
       unf_ext
     unf_ext (0.0.5)
     webrobots (0.0.13)
+    xml-simple (1.1.2)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  asset_oss (~> 0.3.1349530724)
   bcrypt-ruby (~> 3.0.0)
   capistrano (~> 2.13.5)
   coffee-rails (~> 3.2.1)

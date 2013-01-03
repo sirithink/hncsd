@@ -23,6 +23,7 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 
   gem "less-rails", "~> 2.2.6"
+  gem "asset_oss", "~> 0.3.1349530724"
 end
 gem "twitter-bootstrap-rails", "~> 2.1.7"
 

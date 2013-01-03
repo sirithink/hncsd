@@ -1,0 +1,5 @@
+production:
+  host: 'oss-internal.aliyuncs.com'
+  access_key_id: 'MY_ACCESS_KEY'
+  cret_access_key: 'MY_ACCESS_SECRET'
+  bucket: "j-assets"
