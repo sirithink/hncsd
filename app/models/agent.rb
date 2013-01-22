@@ -33,6 +33,7 @@ class Agent
     def get_agent
       agent = Mechanize.new
       agent.user_agent_alias=('Mac Safari')
+      agent.set_proxy('127.0.0.1', 8118)
       agent
     end
     def dump_session(agent)
