@@ -45,6 +45,7 @@ gem 'bcrypt-ruby', '~> 3.0.0'
 # gem 'debugger'
 group :development do
   gem "magic_encoding"
+  gem "brakeman"
 end
 group :development, :test do
   gem "factory_girl_rails", "~> 4.0"
